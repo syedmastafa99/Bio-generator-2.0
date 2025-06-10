@@ -2,9 +2,7 @@
 import { OpenAI } from "openai";
 
 const openai = new OpenAI({
-  apiKey: process.env.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,
-});
-
+  apiKey: process.env.sk-
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Only POST allowed" });
