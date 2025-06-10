@@ -1,0 +1,49 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Bio Generator</title>
+  <style>
+    body { font-family: Arial; max-width: 700px; margin: 2rem auto;}
+    input, select, button { padding:10px; font-size: 16px; width: 100%; margin: 1rem 0; }
+    .bio-output { background:#eee; padding:10px; border-radius:5px; }
+  </style>
+</head>
+<body>
+  <h1>🧠 AI Bio Generator</h1>
+  <input id="name" placeholder="Name" />
+  <input id="profession" placeholder="Profession" />
+  <input id="hobbies" placeholder="Hobbies (comma-separated)" />
+  <select id="tone">
+    <option value="professional">Professional</option>
+    <option value="funny">Funny</option>
+    <option value="casual">Casual</option>
+  </select>
+  <select id="language">
+    <option value="English">English</option>
+    <option value="Spanish">Spanish</option>
+  </select>
+  <button onclick="generateAI()">Generate</button>
+
+  <div id="output" class="bio-output"></div>
+
+  <script>
+    async function generateAI() {
+      const name = document.getElementById('name').value;
+      const profession = document.getElementById('profession').value;
+      const hobbies = document.getElementById('hobbies').value.split(',').map(h => h.trim());
+      const tone = document.getElementById('tone').value;
+      const language = document.getElementById('language').value;
+
+      const res = await fetch('/api/generate-bio', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, profession, hobbies, tone, language })
+      });
+      const data = await res.json();
+      document.getElementById('output').innerText = data.bio || "Something went wrong.";
+    }
+  </script>
+</body>
+</html>
